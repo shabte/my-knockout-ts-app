@@ -1,0 +1,12 @@
+<div style="font-family: sans-serif; max-width: 400px; margin: 2rem auto;">
+    <h2>TypeScript + Knockout Task App</h2>
+    
+    <form data-bind="submit: addTask">
+        <input type="text" data-bind="value: newTaskTitle, valueUpdate: 'input'" placeholder="Write enterprise task...">
+        <button type="submit">Submit</button>
+    </form>
+
+    <ul data-bind="foreach: tasks" style="margin-top: 1rem;">
+        <li data-bind="text: title"></li>
+    </ul>
+</div>
