@@ -1,0 +1,100 @@
+<!-- Main container for the content -->
+<div class="container my-3">
+    <!-- Header for the section -->
+    <h2>Data from Server async</h2>
+    <!-- Button to fetch data -->
+    <button data-bind="click: () => fetchData('')" class="btn btn-secondary">Fetch Data</button>
+    <hr />
+    <div id="app">
+        <!-- Display loading state -->
+        <div data-bind="visible: isLoading">
+            <div class="d-flex justify-content-center fw-semibold fs-5 align-items-center">
+                <span class="me-2">Loading...</span>
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Display error message if any -->
+        <div class="d-flex justify-content-center fw-semibold fs-5 align-items-center"
+            data-bind="visible: error, text: error" style="color: red;"></div>
+        <div class="my-3 d-flex justify-content-end align-items-baseline">
+
+            <span class="fw-semibold me-3" data-bind="with: { pages : pagination()}">
+                <span data-bind="text: pages.current_page"></span>
+                <span class="mx-1">of</span>
+                <span class="" data-bind="text: pages.total_pages"></span>
+            </span>
+
+            <ul class="pagination " data-bind="with: { pages : pagination(), prevUrl: pagination().prev_url, nextUrl: pagination().next_url, currentPage: pagination().current_page }">
+                <li class="page-item" data-bind="css: { 'disabled': !(currentPage > 1) }">
+                    <a class="page-link" href="#"
+                        data-bind="click: function() { $parent.fetchData(1); return false; }">
+                        First
+                    </a>
+                </li>
+                <li class="page-item" data-bind="css: { 'disabled': !(currentPage > 1) }">
+                    <a class="page-link" href="#"
+                        data-bind="click: function() { $parent.fetchData(prevUrl); return false; },
+                                    enable: (currentPage > 1)">
+                        Previous
+                    </a>
+                </li>
+                <li class="page-item active"><a class="page-link" href="#" data-bind="text: currentPage"></a></li>
+                <li class="page-item" data-bind="css: { 'disabled': !(currentPage < pages.total_pages) }">
+                    <a class="page-link" href="#"
+                        data-bind="click: function() { $parent.fetchData(nextUrl); return false; }">
+                        Next
+                    </a>
+                </li>
+                <li class="page-item" data-bind="css: { 'disabled': !(currentPage < pages.total_pages) }">
+                    <a class="page-link" href="#"
+                        data-bind="click: function() { $parent.fetchData(pages.total_pages); return false; }">
+                        Last
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+        <!-- Display data if available -->
+        <div class="row g-3 row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4"
+            data-bind="visible: !isLoading(), foreach: response().data">
+            <!-- Column for each item -->
+            <div class="col">
+                <!-- Card to display item details -->
+                <div class="card ">
+
+                    <img data-bind="if: (image_id || thumbnail), attr: {
+                        src: 'https://www.artic.edu/iiif/2/' + image_id + '/full/400,/0/default.jpg',
+                        alt: thumbnail ? thumbnail.alt_text : ''
+                    }" class="card-img-top" height="250">
+
+
+                    <div class="card-body">
+                        <!-- Card title bound to item's title -->
+                        <h5 class="card-title text-capitalize" data-bind="text: title"></h5>
+                        <!-- Card text bound to item's body -->
+                        <!-- <p class="card-text" data-bind="text: body"></p> -->
+                    </div>
+                    <div class="card-footer border-0 pt-0">
+                        <!-- Footer with item id and a link -->
+                        <p class="m-0 d-flex justify-content-between">
+                            <!-- Item id displayed -->
+                            <span class="fs-5 fw-bold" data-bind="text: id"></span>
+                            <!-- Link to comments page for the item -->
+                            <a data-bind="attr: { 'data-link': api_link }">
+                                <!-- SVG icon inside the link -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                                    class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0M4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z" />
+                                </svg>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

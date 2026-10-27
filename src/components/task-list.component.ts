@@ -11,7 +11,7 @@ class TaskListViewModel {
     constructor() {
         this.tasks = ko.observableArray<ITask>([]);
         this.newTaskTitle = ko.observable<string>('');
-        this.loadTasks();
+        //this.loadTasks();
     }
 
     public async loadTasks(): Promise<void> {

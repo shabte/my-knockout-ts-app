@@ -30,6 +30,14 @@ export default {
     }),
   ],
   devServer: {
+    proxy: [
+      {
+        context: ['/api-artic'],
+        target: 'https://api.artic.edu',
+        changeOrigin: true,
+        pathRewrite: { '^/api-artic': '' },
+      },
+    ],
     port: 3000,
     hot: true,
     historyApiFallback: true, // Crucial for client-side routing routes
